@@ -1115,5 +1115,8 @@ def main():
             allowed_updates=Update.ALL_TYPES
         )
 
+    except Exception as e:
+        logger.error(f"ғᴀᴛᴀʟ ᴇʀʀᴏʀ: {e}")
+
 if __name__ == '__main__':
     main()
