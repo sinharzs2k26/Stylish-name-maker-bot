@@ -1042,7 +1042,7 @@ def main():
         
         # Create application
         persistence = PicklePersistence(filepath="bot_persistence")
-        application = Application.builder().token(BOT_TOKEN).persistence(persistence).build()
+        application = Application.builder().token(TELEGRAM_BOT_TOKEN).persistence(persistence).build()
         
         # Add error handler
         application.add_error_handler(error_handler)
