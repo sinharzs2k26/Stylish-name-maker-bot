@@ -1,3 +1,4 @@
+# Final 100% working script
 import os
 import sqlite3
 import logging
@@ -460,7 +461,6 @@ class BotHandlers:
                 f"✨ ᴡᴇʟᴄᴏᴍᴇ {user.first_name}! ✨\n\n"
                 "🎨 sᴛʏʟɪsʜ ɴᴀᴍᴇ ʙᴏᴛ\n"
                 "• 2000+ sᴛʏʟᴇs/ғᴏɴᴛs/ᴀʀᴛ\n"
-                "• ɪɴsᴛᴀɴᴛ ᴏɴᴇ-ᴄʟɪᴄᴋ ᴄᴏᴘʏ\n"
                 "• ғᴀsᴛ ᴘᴀɢɪɴᴀᴛɪᴏɴ\n\n"
                 "👇 ᴄʜᴏᴏsᴇ ᴀɴ ᴏᴘᴛɪᴏɴ:"
             )
@@ -511,7 +511,6 @@ class BotHandlers:
             "*ɴᴏᴛᴇ:*\n"
             "• ɴᴀᴍᴇ ᴍᴀx 30 ᴄʜᴀʀᴀᴄᴛᴇʀs\n"
             "• ᴀʟʟ sᴛʏʟᴇs sᴜᴘᴘᴏʀᴛᴇᴅ ᴏɴ ᴍᴏʙɪʟᴇ & ᴅᴇsᴋᴛᴏᴘ\n"
-            "• ɪɴsᴛᴀɴᴛ ᴏɴᴇ-ᴄʟɪᴄᴋ ᴄᴏᴘʏ\n"
             "• 2000+ sᴛʏʟᴇs ᴀᴠᴀɪʟᴀʙʟᴇ"
         )
         
@@ -692,7 +691,7 @@ class BotHandlers:
             f"📂 ᴄᴀᴛᴇɢᴏʀʏ: {category_display}\n"
             f"📊 ᴛᴏᴛᴀʟ: {total}\n"
             f"📄 ᴘᴀɢᴇ: {page}/{total_pages}\n\n"
-            "👇 ᴄʟɪᴄᴋ ᴛᴏ ᴄᴏᴘʏ:"
+            "👇 ᴄʟɪᴄᴋ:"
         )
         
         if query:
@@ -754,7 +753,7 @@ class BotHandlers:
                     parse_mode=ParseMode.MARKDOWN_V2
                 )
                 
-                await query.answer(self.apply_small_caps("✅ ᴄᴏᴘɪᴇᴅ!"), show_alert=True)
+                await query.answer(self.apply_small_caps("✅ sᴛʏʟɪsʜ ɴᴀᴍᴇ sᴇɴᴛ ᴀs ᴀ ᴍᴇssᴀɢᴇ ʙᴇʟᴏᴡ!"), show_alert=True)
             else:
                 await query.answer(self.apply_small_caps("⚠️ ᴛᴇxᴛ ɴᴏᴛ ғᴏᴜɴᴅ"), show_alert=True)
     
@@ -792,7 +791,7 @@ class BotHandlers:
             
             text_hash = TextStorage.store_text(styled_text)
             
-            keyboard = [[InlineKeyboardButton("📋 ᴄᴏᴘʏ", callback_data=f"copy_{text_hash}")]]
+            keyboard = [[InlineKeyboardButton("📋 ᴄʟɪᴄᴋ", callback_data=f"copy_{text_hash}")]]
             reply_markup = InlineKeyboardMarkup(keyboard)
             
             await context.bot.send_message(
