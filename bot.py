@@ -1,4 +1,3 @@
-# Final 100% working script
 import os
 import sqlite3
 import logging
