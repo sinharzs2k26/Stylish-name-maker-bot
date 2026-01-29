@@ -1073,7 +1073,7 @@ def main():
         logger.info("🤖 Bot is starting...")
         logger.info("📡 Press Ctrl+C to stop")
 
-        class HealthHandler(BaseHTTPRequestHandler)
+        class HealthHandler(BaseHTTPRequestHandler):
             def do_GET(self):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/plain')
