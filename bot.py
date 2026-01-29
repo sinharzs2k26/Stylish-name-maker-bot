@@ -1072,46 +1072,30 @@ def main():
         logger.info("🤖 Bot is starting...")
         logger.info("📡 Press Ctrl+C to stop")
 
-    # Check if running on Render
-        is_render = 'RENDER' in os.environ
+        class HealthHandler(BaseHTTPRequestHandler)
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header('Content-type', 'text/plain')
+                self.end_headers()
+                self.wfile.write(b'Bot is alive!')
+        
+            def log_message(self, format, *args):
+                pass  # Silence logs
 
-        if is_render:
-        # Use webhook for Render
-            logger.info("🚀 Running in Render mode")
-            port = int(os.environ.get('PORT', 10000))
-
-        # Get webhook URL
-            webhook_url = os.environ.get('RENDER_EXTERNAL_URL')
-            if webhook_url:
-                webhook_url = f"{webhook_url}/{TOKEN}"
-                logger.info(f"Setting webhook to: {webhook_url}")
-
-            # Set webhook before starting
-                async def set_webhook():
-                    await application.bot.set_webhook(webhook_url)
-
-            # Run the application with webhook
-                application.run_webhook(
-                    listen="0.0.0.0",
-                    port=port,
-                    url_path=TOKEN,
-                    webhook_url=webhook_url,
-                    drop_pending_updates=True,
-                    allowed_updates=Update.ALL_TYPES
-            )
-            else:
-                logger.warning("No RENDER_EXTERNAL_URL found, using polling instead")
-                application.run_polling(
-                    drop_pending_updates=True,
-                    allowed_updates=Update.ALL_TYPES
-            )
-        else:
-        # Use polling for local development
-            logger.info("💻 Running in local mode (polling)")
-            application.run_polling(
-                drop_pending_updates=True,
-                allowed_updates=Update.ALL_TYPES
-        )
+        def run_health_server():
+            port = int(os.environ.get("PORT", 8080))
+            httpd = HTTPServer(('0.0.0.0', port), HealthHandler)
+            logger.info(f"✅ Health server on port {port}")
+            httpd.serve_forever()
+    
+        # Start health server
+        health_thread = threading.Thread(target=run_health_server, daemon=True)
+        health_thread.start()
+    
+        application.run_polling(
+            drop_pending_updates=True,
+            allowed_updates=Update.ALL_TYPES
+           )
         
     except Exception as e:
         logger.error(f"ғᴀᴛᴀʟ ᴇʀʀᴏʀ: {e}")
