@@ -1,11 +1,10 @@
 # 🤖 Stylish Name Maker Bot - Telegram Bot
 
-A feature-rich Telegram bot that instantly transforms names into 2000+ stylish fonts, decorative art, and unique text styles with one-click copy functionality.
+A feature-rich Telegram bot that instantly transforms names into 2000+ stylish fonts, decorative art, and unique text styles.
 
 ## ✨ Features
 
 - **2000+ Styles/Fonts/Art** - Massive collection of decorative designs
-- **Instant One-Click Copy** - Easy copy-paste for social media, bios, and profiles
 - **Fast Pagination** - Quick navigation through styles
 - **Four Categories**:
   - 🎨 Decorative (1000+ styles)
@@ -32,5 +31,4 @@ A feature-rich Telegram bot that instantly transforms names into 2000+ stylish f
    - Art
    - Mixed
 4. Browse through styles with pagination
-5. Click any style to instantly copy it
-6. Paste anywhere you want!
+5. Copy and paste anywhere you want!
