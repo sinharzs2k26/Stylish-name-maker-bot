@@ -1084,7 +1084,7 @@ def main():
                 pass  # Silence logs
 
         def run_health_server():
-            port = int(os.environ.get("PORT", 8080))
+            port = int(os.environ.get("PORT", 10000))
             httpd = HTTPServer(('0.0.0.0', port), HealthHandler)
             logger.info(f"✅ Health server on port {port}")
             httpd.serve_forever()
