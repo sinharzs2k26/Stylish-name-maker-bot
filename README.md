@@ -2,7 +2,7 @@
 
 A feature-rich Telegram bot that instantly transforms names into 2000+ stylish fonts, decorative art, and unique text styles.
 
-**Bot link:** `t.me/Style_Craftbot`
+**Bot link:** `t.me/StylishName_MakerBot`
 
 ## ✨ Features
 
