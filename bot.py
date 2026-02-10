@@ -14,8 +14,7 @@ from telegram.ext import (
     MessageHandler,
     CallbackQueryHandler,
     ContextTypes,
-    filters,
-    PicklePersistence,
+    filters
 )
 from telegram.constants import ParseMode
 from contextlib import contextmanager
@@ -753,7 +752,7 @@ class BotHandlers:
                     parse_mode=ParseMode.MARKDOWN_V2
                 )
                 
-                await query.answer(self.apply_small_caps("✅ sᴛʏʟɪsʜ ɴᴀᴍᴇ sᴇɴᴛ ᴀs ᴀ ᴍᴇssᴀɢᴇ ʙᴇʟᴏᴡ!"), show_alert=True)
+                await query.answer(self.apply_small_caps("✅ sᴛʏʟɪsʜ ɴᴀᴍᴇ sᴇɴᴛ ᴀs ᴀ ᴍᴇssᴀɢᴇ ʙᴇʟᴏᴡ. ᴄᴏᴘʏ ᴀɴᴅ ᴘᴀsᴛᴇ ᴀɴʏᴡʜᴇʀᴇ ʏᴏᴜ ᴡᴀɴᴛ!"), show_alert=True)
             else:
                 await query.answer(self.apply_small_caps("⚠️ ᴛᴇxᴛ ɴᴏᴛ ғᴏᴜɴᴅ"), show_alert=True)
     
@@ -1032,74 +1031,70 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE):
 # ==================== MAIN FUNCTION ====================
 def main():
     """Main function"""
-    try:
-        # Initialize database
-        Database.setup()
-        
-        # Create bot
-        bot_handlers = BotHandlers()
-        
-        # Create application
-        persistence = PicklePersistence(filepath="bot_persistence")
-        application = Application.builder().token(TOKEN).persistence(persistence).build()
-        
-        # Add error handler
-        application.add_error_handler(error_handler)
-        
-        # Add command handlers
-        application.add_handler(CommandHandler("start", bot_handlers.start_command))
-        application.add_handler(CommandHandler("help", bot_handlers.help_command))
-        application.add_handler(CommandHandler("admin", bot_handlers.admin_command))
-        application.add_handler(CommandHandler("stats", stats_command))
-        application.add_handler(CommandHandler("broadcast", broadcast_command))
-        
-        # Add callback query handlers
-        application.add_handler(CallbackQueryHandler(bot_handlers.ask_for_name, pattern='^create_style$'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.generate_random_name, pattern='^random_name$'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.show_bot_stats, pattern='^bot_stats$'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.help_command, pattern='^help$'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.show_category_styles, pattern='^cat_'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.handle_pagination, pattern='^page_'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.copy_text, pattern='^copy_'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.handle_navigation, pattern='^(back_to_start|new_name|change_category)$'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.admin_stats, pattern='^admin_stats$'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.admin_broadcast, pattern='^admin_broadcast$'))
-        application.add_handler(CallbackQueryHandler(bot_handlers.admin_users, pattern='^admin_users$'))
-        
-        # Add message handler
-        application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, bot_handlers.process_name))
+
+    # Initialize database
+    Database.setup()
+
+    # Create bot
+    bot_handlers = BotHandlers()
+
+    # Create application
+    application = Application.builder().token(TOKEN).build()
+
+    # Add error handler
+    application.add_error_handler(error_handler)
+
+    # Add command handlers
+    application.add_handler(CommandHandler("start", bot_handlers.start_command))
+    application.add_handler(CommandHandler("help", bot_handlers.help_command))
+    application.add_handler(CommandHandler("admin", bot_handlers.admin_command))
+    application.add_handler(CommandHandler("stats", stats_command))
+    application.add_handler(CommandHandler("broadcast", broadcast_command))
+
+    # Add callback query handlers
+    application.add_handler(CallbackQueryHandler(bot_handlers.ask_for_name, pattern='^create_style$'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.generate_random_name, pattern='^random_name$'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.show_bot_stats, pattern='^bot_stats$'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.help_command, pattern='^help$'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.show_category_styles, pattern='^cat_'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.handle_pagination, pattern='^page_'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.copy_text, pattern='^copy_'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.handle_navigation, pattern='^(back_to_start|new_name|change_category)$'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.admin_stats, pattern='^admin_stats$'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.admin_broadcast, pattern='^admin_broadcast$'))
+    application.add_handler(CallbackQueryHandler(bot_handlers.admin_users, pattern='^admin_users$'))
+
+    # Add message handler
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, bot_handlers.process_name))
         
     # Start the bot
-        logger.info("🤖 Bot is starting...")
-        logger.info("📡 Press Ctrl+C to stop")
+    logger.info("🤖 Bot is starting...")
+    logger.info("📡 Press Ctrl+C to stop")
 
-        class HealthHandler(BaseHTTPRequestHandler):
-            def do_GET(self):
-                self.send_response(200)
-                self.send_header('Content-type', 'text/plain')
-                self.end_headers()
-                self.wfile.write(b'Bot is alive!')
-        
-            def log_message(self, format, *args):
-                pass  # Silence logs
+    class HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(b'Bot is alive!')
 
-        def run_health_server():
-            port = int(os.environ.get("PORT", 10000))
-            httpd = HTTPServer(('0.0.0.0', port), HealthHandler)
-            logger.info(f"✅ Health server on port {port}")
-            httpd.serve_forever()
+        def log_message(self, format, *args):
+            pass  # Silence logs
+
+    def run_health_server():
+        port = int(os.environ.get("PORT", 10000))
+        httpd = HTTPServer(('0.0.0.0', port), HealthHandler)
+        logger.info(f"✅ Health server on port {port}")
+        httpd.serve_forever()
     
         # Start health server
         health_thread = threading.Thread(target=run_health_server, daemon=True)
         health_thread.start()
     
-        application.run_polling(
-            drop_pending_updates=True,
-            allowed_updates=Update.ALL_TYPES
-           )
-        
-    except Exception as e:
-        logger.error(f"ғᴀᴛᴀʟ ᴇʀʀᴏʀ: {e}")
+    application.run_polling(
+        drop_pending_updates=True,
+        allowed_updates=Update.ALL_TYPES
+        )
         
 if __name__ == '__main__':
     main()
