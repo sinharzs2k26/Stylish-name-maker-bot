@@ -1087,10 +1087,10 @@ def main():
         logger.info(f"✅ Health server on port {port}")
         httpd.serve_forever()
     
-        # Start health server
-        health_thread = threading.Thread(target=run_health_server, daemon=True)
-        health_thread.start()
-    
+    # Start health server
+    health_thread = threading.Thread(target=run_health_server, daemon=True)
+    health_thread.start()
+
     application.run_polling(
         drop_pending_updates=True,
         allowed_updates=Update.ALL_TYPES
